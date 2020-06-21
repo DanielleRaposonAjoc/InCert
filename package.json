@@ -20,6 +20,9 @@
     "pizzip": "^3.0.6",
     "watchify": "^3.11.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "word-wrapper": "^1.0.7",
+    "wordwrap": "^1.0.0"
+  },
   "description": ""
 }

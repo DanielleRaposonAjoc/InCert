@@ -1,8 +1,9 @@
 const { degrees, PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const csv = require('csv-parser');
 const fontkit = require('@pdf-lib/fontkit');
 var fs = require('fs');
 
-async function modifyPdf() {
+async function modifyTemplate(name) {
   const fontBytes = fs.readFileSync('Alesandra.ttf');
   const existingPdfBytes = fs.readFileSync('certificate.pdf');
 
@@ -23,7 +24,7 @@ async function modifyPdf() {
   const { width, height } = firstPage.getSize()
 
   // Create a string of text and measure its width and height in our custom font
-const text = 'Danenosaurus Rex'
+const text = name
 const textSize = 50
 const textWidth = customFont.widthOfTextAtSize(text, textSize)
 const textHeight = customFont.heightAtSize(textSize)
@@ -46,9 +47,20 @@ const textHeight = customFont.heightAtSize(textSize)
   // Serialize the PDFDocument to bytes (a Uint8Array)
   const pdfBytes = await pdfDoc.save()
 
-  fs.writeFileSync('editedDoc.pdf', pdfBytes);
+  fs.writeFileSync('./finishedCertificates/'+name+'.pdf', pdfBytes);
 
 };
 
-modifyPdf();
+function csvToCert(fileLocation){
+  fs.createReadStream(fileLocation)
+  .pipe(csv())
+  .on('data', function (data){ 
+    modifyTemplate(data.NAME)
+  })
+  .on('end', () => {
+    console.log('done');
+  });
+}
 
+
+csvToCert('data.csv');
