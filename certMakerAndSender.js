@@ -2,6 +2,8 @@ const { degrees, PDFDocument, rgb, StandardFonts } = require('pdf-lib');
 const csv = require('csv-parser');
 const fontkit = require('@pdf-lib/fontkit');
 var fs = require('fs');
+var nodemailer = require('nodemailer');
+
 
 async function modifyTemplate(name) {
   const fontBytes = fs.readFileSync('Alesandra.ttf');
@@ -56,10 +58,45 @@ function csvToCert(fileLocation){
   .pipe(csv())
   .on('data', function (data){ 
     modifyTemplate(data.NAME)
+    sendCSVToMail(data.EMAIL, "laonglaan17", "mgabagongrizal19@gmail.com",data.NAME+".pdf")
   })
   .on('end', () => {
     console.log('done');
   });
+}
+
+function sendCSVToMail(to, pass, from, filename){
+    var transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+         service: 'gmail',
+         auth: {
+           user: from,
+           pass: pass
+         },
+         tls: {
+           rejectUnauthorized: false
+       }
+       });
+       var mailOptions = {
+        from: from,
+        to: to,
+        subject: 'MBR 2019 Webinar Certificate',
+        text: 'Thank you for participating in the Agapay: Makabagong Gabay para as Modernong Pilipino webinar series.',
+        attachments: [
+          {   // file on disk as an attachment
+              filename: filename,
+              path: __dirname+'/finishedCertificates/'+filename// stream this file
+          }
+      ]
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
 }
 
 
