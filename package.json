@@ -16,7 +16,7 @@
     "csv-parser": "^2.3.3",
     "docxtemplater": "^3.17.9",
     "lite-server": "^2.5.4",
-    "nodemailer": "^6.4.10",
+    "nodemailer": "^6.4.16",
     "pdf-lib": "^1.7.0",
     "pizzip": "^3.0.6",
     "watchify": "^3.11.1"
