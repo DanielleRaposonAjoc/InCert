@@ -14,7 +14,7 @@
     "bootstrap": "^4.5.0",
     "browserify": "^16.5.1",
     "csv-parser": "^2.3.3",
-    "docxtemplater": "^3.17.9",
+    "docxtemplater": "^3.31.5",
     "lite-server": "^2.5.4",
     "nodemailer": "^6.4.10",
     "pdf-lib": "^1.7.0",
